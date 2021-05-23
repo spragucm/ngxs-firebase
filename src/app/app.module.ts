@@ -10,6 +10,7 @@ import { RouterState } from './shared/router.state';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { OrderService } from './order.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
     NgxsModule.forRoot([
       AppState,
       RouterState
-    ]),
+      ],
+      //{ developmentMode: !environment.production }
+    ),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot()
   ],
