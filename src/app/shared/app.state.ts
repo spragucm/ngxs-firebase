@@ -1,7 +1,8 @@
 import { State, Action, StateContext } from "@ngxs/store";
 import { OrderService } from "../order.service";
-import { SetUsername } from "./app.actions";
+import { ConfirmOrder, OrderFailed, OrderSuccess, SetUsername } from "./app.actions";
 import { Injectable } from "@angular/core";
+import { tap } from "rxjs/operators";
 
 export interface AppStateModel {
   username: string;
@@ -24,5 +25,24 @@ export class AppState {
   @Action(SetUsername)
   setUserName({ patchState }: StateContext<AppStateModel>, { payload }: SetUsername) {
     patchState({ username: payload });
+  }
+
+  @Action(ConfirmOrder, { cancelUncompleted: true })
+  confirm({ dispatch, patchState }: StateContext<AppStateModel>) {
+    patchState({ status: 'pending' });
+
+    return this.orderService.post().pipe(
+      tap(success => (success ? dispatch(OrderSuccess) : dispatch(OrderFailed)))
+    );
+  }
+
+  @Action(OrderSuccess)
+  orderSuccess({ patchState }: StateContext<AppStateModel>) {
+    patchState({ status: 'confirmed' });
+  }
+
+  @Action(OrderFailed)
+  orderFailed({ patchState }: StateContext<AppStateModel>) {
+    patchState({ status: 'declined' });
   }
 }

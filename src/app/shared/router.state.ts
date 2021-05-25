@@ -15,13 +15,27 @@ export class Navigate {
 @Injectable()
 export class RouterState {
 
-  constructor(private router: Router, private orderService: OrderService) {}
+  constructor(private router: Router) {}
 
-  // @Action(Navigate)
-  // async changeRoute(context: StateContext<string>, action: Navigate) {
-  //   const path = action.payload;
-  //   await this.router.navigate([path]);
-  //   context.setState( path );
-  // }
+  @Action(Navigate)
+  async changeRoute(context: StateContext<string>, action: Navigate) {
+    const path = action.payload;
+    await this.router.navigate([path]);
+    context.setState(path);
+  }
+
+  /*
+    or listen to an event stream with NgRX Effects
+
+    @Injectable()
+    export class RouteHandler {
+      constructor(private router: Router, private actions$: Actions) {
+        this.actions$
+        .pipe(ofAction(Navigate))
+        .subscribe(({payload}) => this.router.navigate([payload]))
+      }
+    }
+
+  */
 
 }

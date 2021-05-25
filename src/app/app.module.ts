@@ -12,6 +12,8 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { OrderService } from './order.service';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -20,6 +22,7 @@ import { OrderService } from './order.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    NgbModule,
     NgxsModule.forRoot([
       AppState,
       RouterState
